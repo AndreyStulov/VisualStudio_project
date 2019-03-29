@@ -3,22 +3,30 @@
 using namespace std;
 
 template <typename T>
-class List //                                       Main class
+//													 Main class
+class List 
 {
 public:
 	List();
 	~List();
 
-	void push_back(T data);//                       Method Prototype
+	//												  Method Prototype
+	void push_back(T data);
+	void pop_front();
+	void clear();
 
-	int GetSize() { return Size; }//                Getter
 
-	T & operator [](const int index);//             Prototype of Overload []
+	//												Getter
+	int GetSize() { return Size; }
+
+	//												 Prototype of Overload []
+	T & operator [](const int index);
 
 private:
 
 	template <typename T>
-	class Node//                                    Pressitioner
+	//													Pressitioner
+	class Node
 	{
 	public:
 		Node *pNext;
@@ -36,19 +44,23 @@ private:
 };
 
 template <typename T>
-List<T>::List()//                                    Constructor
+//														Constructor
+List<T>::List()
 {
 	Size = 0;
 	head = nullptr;
 }
 
 template <typename T>
-List<T>::~List()//                                   Destructor
+//														Destructor
+List<T>::~List()
 {
+	List::clear();
 }
 
 template<typename T>
-void List<T>::push_back(T data)//                    Method
+//														Method
+void List<T>::push_back(T data)
 {
 	if (head == nullptr)
 	{
@@ -70,7 +82,28 @@ void List<T>::push_back(T data)//                    Method
 }
 
 template<typename T>
-T & List<T>::operator[](const int index)//       Overload operator []
+void List<T>::pop_front()
+{
+	Node<T> *temp = head;
+	head = head->pNext;
+	delete temp;
+
+	Size--;
+}
+
+template<typename T>
+void List<T>::clear()
+{
+	while (Size)
+	{
+		List<T>::pop_front();
+
+	}
+}
+
+template<typename T>
+//														Overload operator []
+T & List<T>::operator[](const int index)
 {
 	int counter = 0;
 	
@@ -98,12 +131,14 @@ int main()
 	int numberCount;
 	cin >> numberCount;
 
-	for (int i = 0; i < numberCount; i++)//                  Auto-pusher
+	//														Auto-pusher
+	for (int i = 0; i < numberCount; i++)
 	{
 		lst.push_back(rand()%10);
 	}
 
-	for (int i = 0; i < lst.GetSize(); i++)//                Out all elements
+	//														Out all elements
+	for (int i = 0; i < lst.GetSize(); i++)
 	{
 		cout << lst[i] << "\t";
 	}
