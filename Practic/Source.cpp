@@ -22,7 +22,7 @@ int main()
 		++counter;
 
 	}
-	while (counter<100);
+	while (counter<60);
 
 	return 0;
 	system("pause");
