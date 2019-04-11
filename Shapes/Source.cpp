@@ -28,6 +28,12 @@ public:
 	//Formula of Area
 	double Area() override {return this->Side_A * this->Side_B;}
 
+	//Perimetr of rectangle 2(A+B)
+	double PerOfBase()
+	{
+		return (this->Get_Side_A() + this->Get_Side_B()) * 2;
+	}
+
 private:
 	int Side_A;
 	int Side_B;
@@ -59,56 +65,45 @@ public:
 	Pyramid() : Rectangle()
 	{
 		this->Side_C = (rand() % 20) + 1;
+		this->Half_p = (Get_Side_A() + Side_C * 2) / 2;
+		this->TempApofem = Half_p * (Half_p - Get_Side_A())*(Half_p - Get_Side_C())*(Half_p - Get_Side_C());
+		if (TempApofem>0)
+		{
+			this->Apofem = (sqrt(TempApofem)) * 2 / Get_Side_A();
+		}
+		else
+		{
+			this->Apofem = 0;
+		}
+		
 	}
 
 	//Getters
-	int Get_Side_C() { return this->Side_C; }
+	int Get_Side_C() 
+	{ return this->Side_C; }
 
-	//Ïëîùàäü ïèðàìèäû 1\2ðL+ïëîùàäü_îñíîâàíèÿ, ãäå L - àïîôåìà
-	double AreaPyramid()
+	int Get_Apofem()
 	{
-		if (ApofemaOfPyramid() == 0) {return 0;}
+		return this->Apofem;
+	}
 
-		else 
+	double Area() override
+	{
+		if (Apofem!=0)
 		{
-			return 1/2 * PerOfBase()*ApofemaOfPyramid() + ::Rectangle::Area();
+			return 0.5 * Rectangle::PerOfBase()*Apofem + Rectangle::Area();
+		}
+		else
+		{
+			return 0;
 		}
 	}
+	
 
 private:
 	int Side_C;
-
-	//Íàõîæäåíèå Ïîëîâèíû ïåðèìåòðà îäíîé ñòîðîíû ïèðàìèäû ñîãëàñíî ôîðìóëû ð = (a+b+c)/2
-	//ãäå ð - ïîëóïåðèìåòð, à b c - ñòîðîíû ïèðàìèäû, ãäå b = c òàê êàê ñ ïðèëåãàþùàÿ ê âåðøèíå ñòîðîíà
-	double Half_P()
-	{
-		return (this->Get_Side_A() + this->Get_Side_C() * 2) / 2;
-	}
-
-	//Ïðîìåæóòî÷íàÿ ôóíêöèÿ äëÿ îïðåäåëåíèÿ àïîôåìû ïèðàìèäû (ð(ð-à)(ð-b)(p-c), ãäå à - îñíîâàíèå,
-	// b = c(ðàâíûå ñòîðîíû), ñ - ñòîðîíà ïðèëåãàþùàÿ ê âåðøèíå,
-	double TempApofem()
-	{
-		return this->Half_P()*
-			(this->Half_P() - this->Get_Side_A())*
-			(this->Half_P() - this->Get_Side_C())*
-			(this->Half_P() - this->Get_Side_C());
-	}
-
-	//Ïîèñê àïîôåìû ïèðàìèäû ïî ôîðìóëå 2\à*êîðåíü_èç_(ð(ð-à)(ð-b)(p-c), ãäå à - îñíîâàíèå,
-	// b = c(ðàâíûå ñòîðîíû), ñ - ñòîðîíà ïðèëåãàþùàÿ ê âåðøèíå, ð - ïîëóïåðèìåòð Ð()
-	double ApofemaOfPyramid()
-	{
-		if (this->TempApofem() < 0) { return 0; }
-
-		else { return sqrt(this->TempApofem()) * 2 / this->Get_Side_A(); }
-	}
-
-	//Ïåðèìåòð îñíîâàíèÿ ïèðàìèäû 2(A+B)
-	double PerOfBase()
-	{
-		return (this->Get_Side_A() + this->Get_Side_B()) * 2;
-	}
+	double Half_p, TempApofem, Apofem;
+	
 };
 
 
@@ -120,18 +115,18 @@ int main()
 	for (int i = 0; i < 5; i++)
 	{
 		Rectangle A;
-		cout << "Created new Rectangle!\nSide A = " << A.Get_Side_A()
-			<< "\nSide B = " << A.Get_Side_B()
-			<< "\Area = " << A.Area() << endl << endl;
+		cout << "Создан новый Прямоугольник!\nСторона А = " << A.Get_Side_A()
+			<< "\nСторона Б = " << A.Get_Side_B()
+			<< "\nПлощадь = " << A.Area() << endl << endl;
 
 		Circle B;
-		cout << "Created new Circle!\nRadius = " << B.Get_Radius() << "\nArea = " << B.Area() << endl << endl;
+		cout << "Создан новый Круг!\nРадиус = " << B.Get_Radius() << "\nПлощадь = " << B.Area() << endl << endl;
 
 		Pyramid C;
-		cout << "Created new Pyramid!\nSide A = " << C.Get_Side_A()
-			<< "\nSide B = " << C.Get_Side_B()
-			<< "\nSide C = "<< C.Get_Side_C()
-			<< "\nArea = " << C.AreaPyramid() << endl << endl;
+		cout << "Создана новая Пирамида!\nСторона А = " << C.Get_Side_A()
+			<< "\nСторона Б = " << C.Get_Side_B()
+			<< "\nСторона C = "<< C.Get_Side_C()
+			<< "\nПлощадь = " << C.Area() << endl << endl;
 	}
 
 	return 0;
