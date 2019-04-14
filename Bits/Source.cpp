@@ -4,7 +4,6 @@
 
 using namespace std;
 
-
 unsigned char ReverseBits(unsigned char &number) 
 {
 	number = (number & 0x55) << 1 | (number & 0xAA) >> 1;
